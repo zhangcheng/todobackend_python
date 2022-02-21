@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 import pytest
 
-from ..application.use_cases import CreateTodoUseCase
+from ..application.use_cases import CreateTodoUseCase, CreateTodoOutputBoundary
 from ..application.repositories import TodosRepository
 from ..domain.entities import Todo
 from ..domain.value_objects import TodoId
@@ -28,5 +28,10 @@ def todos_repo_mock(todo: Todo) -> Mock:
 
 
 @pytest.fixture()
-def create_todo_uc(todos_repo_mock: Mock) -> CreateTodoUseCase:
-    return CreateTodoUseCase(todos_repo_mock)
+def create_todo_output_boundary_mock() -> Mock:
+    return Mock(spec_set=CreateTodoOutputBoundary)
+
+
+@pytest.fixture()
+def create_todo_uc(create_todo_output_boundary_mock: Mock, todos_repo_mock: Mock) -> CreateTodoUseCase:
+    return CreateTodoUseCase(create_todo_output_boundary_mock, todos_repo_mock)
