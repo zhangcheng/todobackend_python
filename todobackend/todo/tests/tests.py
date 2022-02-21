@@ -1,10 +1,12 @@
-import unittest
 from unittest.mock import Mock
+import pytest
 
+from ..application.use_cases import CreateTodoUseCase
+from ..domain.entities import Todo
 
-class UseCase1Tests(unittest.TestCase):
-    def setUp(self) -> None:
-        pass
+def test_saves_todo(
+    create_todo_uc: CreateTodoUseCase, todos_repo_mock: Mock, todo: Todo, input_dto: CreateTodoUseCase.InputDto
+) -> None:
+    create_todo_uc.execute(input_dto)
 
-    def test_1(self):
-        pass
+    todos_repo_mock.save.assert_called_once()
