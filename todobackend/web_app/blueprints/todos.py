@@ -1,0 +1,38 @@
+from flask import Blueprint, Response, abort, jsonify, make_response, request
+import flask_injector
+import injector
+
+from ...todo import (
+    TodoId,
+    CreateTodoUseCase,
+    CreateTodoOutputBoundary,
+    CreateTodoOutputDto,
+)
+
+todos_blueprint = Blueprint("todos_blueprint", __name__)
+
+
+class TodosWeb(injector.Module):
+    @injector.provider
+    @flask_injector.request
+    def create_todo_output_boundary(self) -> CreateTodoOutputBoundary:
+        return CreateTodoPresenter()
+
+
+@todos_blueprint.route("/", methods=["POST"])
+def create_todo(create_todo_uc: CreateTodoUseCase, presenter: CreateTodoOutputBoundary) -> Response:
+    # dto = get_dto(request, PlacingBidInputDto, context={"auction_id": auction_id, "bidder_id": current_user.id})
+    dto = CreateTodoUseCase.InputDto(title="hello clean architecture")
+
+    create_todo_uc.execute(dto)
+    return presenter.response  # type: ignore
+
+
+class CreateTodoPresenter(CreateTodoOutputBoundary):
+    response: Response
+
+    def present(self, output_dto: CreateTodoOutputDto) -> None:
+        message = (
+            "Hooray! You are a winner"
+        )
+        self.response = make_response(jsonify({"message": message}))

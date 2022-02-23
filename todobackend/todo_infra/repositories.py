@@ -1,4 +1,4 @@
-from sqlalchemy.engine import Connection, RowProxy
+from sqlalchemy.engine import Connection
 
 from ..todo.application.repositories import TodosRepository
 from ..todo.domain.entities import Todo

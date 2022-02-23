@@ -1,3 +1,5 @@
+Flask
+Flask-Injector
 injector
 python-dotenv
 SQLAlchemy

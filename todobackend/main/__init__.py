@@ -5,9 +5,9 @@ import dotenv
 import injector
 from sqlalchemy.engine import Connection, Engine, create_engine
 
-from todo import Todos
-from todo_infra import TodosInfra, metadata
-from main.modules import Db
+from ..todo import Todos
+from ..todo_infra import TodosInfra, metadata
+from .modules import Db
 
 __all__ = ["bootstrap_app"]
 
@@ -50,7 +50,7 @@ def _setup_dependency_injection(settings: dict, engine: Engine) -> injector.Inje
 
 def _create_db_schema(engine: Engine) -> None:
     # Models has to be imported for metadata.create_all to discover them
-    from todo_infra import todos  # noqa
+    from ..todo_infra import todos  # noqa
 
     # TODO: Use migrations for that
     metadata.create_all(engine)

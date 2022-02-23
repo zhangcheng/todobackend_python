@@ -24,7 +24,7 @@ def todo() -> Todo:
 
 @pytest.fixture()
 def todos_repo_mock(todo: Todo) -> Mock:
-    return Mock(spec_set=TodosRepository, get=Mock(return_value=todo))
+    return Mock(spec_set=TodosRepository)
 
 
 @pytest.fixture()

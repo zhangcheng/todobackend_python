@@ -1,7 +1,11 @@
 import injector
 
 from .application.repositories import TodosRepository
-from .application.use_cases import CreateTodoOutputBoundary, CreateTodoUseCase
+from .application.use_cases import (
+    CreateTodoOutputBoundary,
+    CreateTodoOutputDto,
+    CreateTodoUseCase,
+)
 from .domain.value_objects import TodoId
 
 __all__ = [
@@ -13,6 +17,7 @@ __all__ = [
     "TodosRepository",
     # use cases
     "CreateTodoUseCase",
+    "CreateTodoOutputBoundary",
     # input dtos are inner class of uc
     # output dtos
     "CreateTodoOutputDto",
@@ -21,5 +26,7 @@ __all__ = [
 
 class Todos(injector.Module):
     @injector.provider
-    def create_todo_uc(self, boundary: CreateTodoOutputBoundary, repo: TodosRepository) -> CreateTodoUseCase:
+    def create_todo_uc(
+        self, boundary: CreateTodoOutputBoundary, repo: TodosRepository
+    ) -> CreateTodoUseCase:
         return CreateTodoUseCase(boundary, repo)
