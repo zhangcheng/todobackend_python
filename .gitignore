@@ -300,6 +300,8 @@ __pycache__/
 
 .mypy_cache/
 .pytest_cache/
+*.db
+.env*
 
 # Cake - Uncomment if you are using it
 # tools/**

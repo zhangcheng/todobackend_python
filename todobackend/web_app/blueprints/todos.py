@@ -32,7 +32,8 @@ class CreateTodoPresenter(CreateTodoOutputBoundary):
     response: Response
 
     def present(self, output_dto: CreateTodoOutputDto) -> None:
-        message = (
-            "Hooray! You are a winner"
-        )
-        self.response = make_response(jsonify({"message": message}))
+        message = {
+            "id": output_dto.created_todo.id,
+            "title": output_dto.created_todo.title,
+        }
+        self.response = make_response(jsonify(message))
