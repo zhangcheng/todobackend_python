@@ -3,12 +3,14 @@ from sqlalchemy.engine import Connection
 
 from ..todo.application.repositories import TodosRepository
 
+from .models import todos, metadata
 from .repositories import SqlAlchemyTodosRepo
 
 __all__ = [
     # module
     "TodosInfra",
     # models
+    "metadata",
     "todos",
 ]
 

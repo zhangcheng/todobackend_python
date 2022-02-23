@@ -1,4 +1,5 @@
 injector
+python-dotenv
 SQLAlchemy
 
 pytest
