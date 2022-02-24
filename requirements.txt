@@ -1,9 +1,11 @@
 Flask
 Flask-Injector
 injector
+marshmallow-dataclass
 python-dotenv
 SQLAlchemy
 
+factory-boy
 pytest
 pylint-pytest
 pytest-sqlalchemy
