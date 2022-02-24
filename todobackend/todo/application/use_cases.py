@@ -2,6 +2,8 @@ import abc
 from dataclasses import dataclass
 from uuid import uuid4
 
+from todobackend.todo.domain.value_objects import TodoId
+
 from .repositories import TodosRepository
 from ..domain.entities import Todo
 
@@ -32,3 +34,15 @@ class CreateTodoUseCase:
 
         output_dto = CreateTodoOutputDto(created_todo=new_todo)
         self.output_boundary.present(output_dto)
+
+
+class DeleteTodoUseCase:
+    @dataclass
+    class InputDto:
+        todo_id: TodoId
+
+    def __init__(self, todos_repo: TodosRepository) -> None:
+        self.todos_repo = todos_repo
+
+    def execute(self, input_dto: InputDto) -> None:
+        self.todos_repo.delete(input_dto.todo_id)

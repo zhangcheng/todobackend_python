@@ -2,6 +2,7 @@ from sqlalchemy.engine import Connection
 
 from ..todo.application.repositories import TodosRepository
 from ..todo.domain.entities import Todo
+from ..todo.domain.value_objects import TodoId
 
 from .models import todos
 
@@ -20,3 +21,5 @@ class SqlAlchemyTodosRepo(TodosRepository):
         )
         if update_result.rowcount != 1:
             self._conn.execute(todos.insert(values=dict(raw_todo, id=todo.id)))
+
+    def delete(self, todo_id: TodoId) -> None: ...

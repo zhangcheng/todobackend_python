@@ -12,3 +12,7 @@ class TodosRepository(abc.ABC):
     @abc.abstractmethod
     def save(self, todo: Todo) -> None:
         pass
+
+    @abc.abstractmethod
+    def delete(self, todo_id: TodoId) -> None:
+        pass
