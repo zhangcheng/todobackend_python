@@ -22,4 +22,7 @@ class SqlAlchemyTodosRepo(TodosRepository):
         if update_result.rowcount != 1:
             self._conn.execute(todos.insert(values=dict(raw_todo, id=todo.id)))
 
-    def delete(self, todo_id: TodoId) -> None: ...
+    def delete(self, todo_id: TodoId) -> None:
+        delete_result = self._conn.execute(
+            todos.delete().where(todos.c.id == todo_id)
+        )

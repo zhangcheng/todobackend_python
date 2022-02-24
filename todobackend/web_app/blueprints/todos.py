@@ -5,6 +5,7 @@ import injector
 from ...todo import (
     TodoId,
     CreateTodoUseCase,
+    DeleteTodoUseCase,
     CreateTodoOutputBoundary,
     CreateTodoOutputDto,
 )
@@ -37,3 +38,11 @@ class CreateTodoPresenter(CreateTodoOutputBoundary):
             "title": output_dto.created_todo.title,
         }
         self.response = make_response(jsonify(message))
+
+
+@todos_blueprint.route("/<string:todo_id>", methods=["DELETE"])
+def delete_todo(todo_id: TodoId, delete_todo_uc: DeleteTodoUseCase) -> Response:
+    dto = get_dto(request, DeleteTodoUseCase.InputDto, context={"todo_id": todo_id})
+
+    delete_todo_uc.execute(dto)
+    return '', 204
