@@ -1,4 +1,4 @@
-from sqlalchemy.engine import Connection
+from sqlalchemy.engine import Connection, RowProxy
 
 from ..todo.application.repositories import TodosRepository
 from ..todo.domain.entities import Todo
@@ -25,4 +25,17 @@ class SqlAlchemyTodosRepo(TodosRepository):
     def delete(self, todo_id: TodoId) -> None:
         delete_result = self._conn.execute(
             todos.delete().where(todos.c.id == todo_id)
+        )
+
+    def get(self, todo_id: TodoId) -> Todo:
+        row = self._conn.execute(todos.select().where(todos.c.id == todo_id)).first()
+        if not row:
+            raise Exception("Not found")
+
+        return self._row_to_dto(row)
+
+    def _row_to_dto(self, row: RowProxy) -> Todo:
+        return Todo(
+            id=row.id,
+            title=row.title,
         )

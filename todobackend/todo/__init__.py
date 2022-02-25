@@ -1,5 +1,6 @@
 import injector
 
+from .application.queries import GetSingleTodo
 from .application.repositories import TodosRepository
 from .application.use_cases import (
     CreateTodoOutputBoundary,
@@ -16,6 +17,8 @@ __all__ = [
     "TodoId",
     # repositories
     "TodosRepository",
+    # queries
+    "GetSingleTodo",
     # use cases
     "CreateTodoUseCase",
     "DeleteTodoUseCase",

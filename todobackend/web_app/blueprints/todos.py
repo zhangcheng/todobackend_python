@@ -4,6 +4,7 @@ import injector
 
 from ...todo import (
     TodoId,
+    GetSingleTodo,
     CreateTodoUseCase,
     DeleteTodoUseCase,
     CreateTodoOutputBoundary,
@@ -46,3 +47,11 @@ def delete_todo(todo_id: TodoId, delete_todo_uc: DeleteTodoUseCase) -> Response:
 
     delete_todo_uc.execute(dto)
     return '', 204
+
+
+@todos_blueprint.route("/<string:todo_id>")
+def single_todo(todo_id: TodoId, query: GetSingleTodo) -> Response:
+    try:
+        return make_response(jsonify(query.query(todo_id)))
+    except:
+        return '', 404
