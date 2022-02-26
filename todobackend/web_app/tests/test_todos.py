@@ -69,3 +69,23 @@ def test_get_all_then_delete_all_todos(client: FlaskClient) -> None:
 
     assert response.status_code == 200
     assert len(response.json) == 0
+
+
+def test_create_then_update_todo(client: FlaskClient) -> None:
+    # create
+    title = Faker().name()
+    response = client.post(f"/", json={"title": title, "order": 1})
+
+    assert response.status_code == 200
+    assert response.json["title"] == title
+    assert "id" in response.json
+    todo_id = response.json['id']
+
+    # update
+    title = Faker().name()
+    response = client.patch(f"/{todo_id}", json={"title": title, "order": 2, "completed": True})
+
+    assert response.status_code == 200
+    assert response.json["title"] == title
+    assert response.json["order"] == 2
+    assert response.json["completed"] == True

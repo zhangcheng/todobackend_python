@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 import pytest
 
-from ..application.use_cases import CreateTodoUseCase, CreateTodoOutputBoundary, DeleteTodoUseCase, DeleteAllTodosUseCase
+from ..application.use_cases import CreateTodoUseCase, UpdateTodoUseCase, CreateTodoOutputBoundary, UpdateTodoOutputBoundary, DeleteTodoUseCase, DeleteAllTodosUseCase
 from ..application.repositories import TodosRepository
 from ..domain.entities import Todo
 from ..domain.value_objects import TodoId
@@ -33,13 +33,28 @@ def create_todo_input_dto(title: str) -> CreateTodoUseCase.InputDto:
 
 
 @pytest.fixture()
+def update_todo_input_dto(todo_id: TodoId, title: str) -> UpdateTodoUseCase.InputDto:
+    return UpdateTodoUseCase.InputDto(id=todo_id, title=title, order=1, completed=True)
+
+
+@pytest.fixture()
 def create_todo_output_boundary_mock() -> Mock:
     return Mock(spec_set=CreateTodoOutputBoundary)
 
 
 @pytest.fixture()
+def update_todo_output_boundary_mock() -> Mock:
+    return Mock(spec_set=UpdateTodoOutputBoundary)
+
+
+@pytest.fixture()
 def create_todo_uc(create_todo_output_boundary_mock: Mock, todos_repo_mock: Mock) -> CreateTodoUseCase:
     return CreateTodoUseCase(create_todo_output_boundary_mock, todos_repo_mock)
+
+
+@pytest.fixture()
+def update_todo_uc(update_todo_output_boundary_mock: Mock, todos_repo_mock: Mock) -> UpdateTodoUseCase:
+    return UpdateTodoUseCase(update_todo_output_boundary_mock, todos_repo_mock)
 
 
 @pytest.fixture()

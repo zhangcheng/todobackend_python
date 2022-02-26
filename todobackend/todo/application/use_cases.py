@@ -37,6 +37,37 @@ class CreateTodoUseCase:
         self.output_boundary.present(output_dto)
 
 
+@dataclass
+class UpdateTodoOutputDto:
+    updated_todo: Todo
+
+
+class UpdateTodoOutputBoundary(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def present(self, output_dto: UpdateTodoOutputDto) -> None:
+        pass
+
+
+class UpdateTodoUseCase:
+    @dataclass
+    class InputDto:
+        id: TodoId
+        title: str
+        order: int
+        completed: bool
+
+    def __init__(self, output_boundary: UpdateTodoOutputBoundary, todos_repo: TodosRepository) -> None:
+        self.output_boundary = output_boundary
+        self.todos_repo = todos_repo
+
+    def execute(self, input_dto: InputDto) -> None:
+        todo = Todo(id=input_dto.id, title=input_dto.title, order=input_dto.order, completed=input_dto.completed)
+        self.todos_repo.save(todo)
+
+        output_dto = UpdateTodoOutputDto(updated_todo=todo)
+        self.output_boundary.present(output_dto)
+
+
 class DeleteTodoUseCase:
     @dataclass
     class InputDto:

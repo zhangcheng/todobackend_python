@@ -8,10 +8,13 @@ from ...todo import (
     GetSingleTodo,
     GetAllTodos,
     CreateTodoUseCase,
+    UpdateTodoUseCase,
     DeleteTodoUseCase,
     DeleteAllTodosUseCase,
     CreateTodoOutputBoundary,
+    UpdateTodoOutputBoundary,
     CreateTodoOutputDto,
+    UpdateTodoOutputDto,
 )
 from ..serialization.dto import get_dto
 
@@ -23,6 +26,11 @@ class TodosWeb(injector.Module):
     @flask_injector.request
     def create_todo_output_boundary(self) -> CreateTodoOutputBoundary:
         return CreateTodoPresenter()
+
+    @injector.provider
+    @flask_injector.request
+    def update_todo_output_boundary(self) -> UpdateTodoOutputBoundary:
+        return UpdateTodoPresenter()
 
 
 @todos_blueprint.route("/", methods=["POST"])
@@ -40,6 +48,27 @@ class CreateTodoPresenter(CreateTodoOutputBoundary):
         message = {
             "id": output_dto.created_todo.id,
             "title": output_dto.created_todo.title,
+        }
+        self.response = make_response(jsonify(message))
+
+
+@todos_blueprint.route("/<string:todo_id>", methods=["PATCH"])
+def update_todo(todo_id: TodoId, update_todo_uc: UpdateTodoUseCase, presenter: UpdateTodoOutputBoundary) -> Response:
+    dto = get_dto(request, UpdateTodoUseCase.InputDto, context={"id": todo_id})
+
+    update_todo_uc.execute(dto)
+    return presenter.response  # type: ignore
+
+
+class UpdateTodoPresenter(UpdateTodoOutputBoundary):
+    response: Response
+
+    def present(self, output_dto: UpdateTodoOutputDto) -> None:
+        message = {
+            "id": output_dto.updated_todo.id,
+            "title": output_dto.updated_todo.title,
+            "order": output_dto.updated_todo.order,
+            "completed": output_dto.updated_todo.completed,
         }
         self.response = make_response(jsonify(message))
 
