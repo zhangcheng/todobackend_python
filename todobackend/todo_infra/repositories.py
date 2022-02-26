@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy.engine import Connection, RowProxy
 
 from ..todo.application.repositories import TodosRepository
@@ -33,6 +34,11 @@ class SqlAlchemyTodosRepo(TodosRepository):
             raise Exception("Not found")
 
         return self._row_to_dto(row)
+
+    def get_all(self) -> List[Todo]:
+        return [
+            self._row_to_dto(row) for row in self._conn.execute(todos.select())
+        ]
 
     def _row_to_dto(self, row: RowProxy) -> Todo:
         return Todo(
