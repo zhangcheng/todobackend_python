@@ -46,3 +46,11 @@ class DeleteTodoUseCase:
 
     def execute(self, input_dto: InputDto) -> None:
         self.todos_repo.delete(input_dto.todo_id)
+
+
+class DeleteAllTodosUseCase:
+    def __init__(self, todos_repo: TodosRepository) -> None:
+        self.todos_repo = todos_repo
+
+    def execute(self) -> None:
+        self.todos_repo.delete_all()

@@ -28,6 +28,11 @@ class SqlAlchemyTodosRepo(TodosRepository):
             todos.delete().where(todos.c.id == todo_id)
         )
 
+    def delete_all(self) -> None:
+        delete_result = self._conn.execute(
+            todos.delete()
+        )
+
     def get(self, todo_id: TodoId) -> Todo:
         row = self._conn.execute(todos.select().where(todos.c.id == todo_id)).first()
         if not row:

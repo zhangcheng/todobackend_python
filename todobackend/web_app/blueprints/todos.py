@@ -8,6 +8,7 @@ from ...todo import (
     GetAllTodos,
     CreateTodoUseCase,
     DeleteTodoUseCase,
+    DeleteAllTodosUseCase,
     CreateTodoOutputBoundary,
     CreateTodoOutputDto,
 )
@@ -61,3 +62,9 @@ def single_todo(todo_id: TodoId, query: GetSingleTodo) -> Response:
 @todos_blueprint.route("/")
 def all_todos(query: GetAllTodos) -> Response:
     return make_response(jsonify(query.query()))
+
+
+@todos_blueprint.route("/", methods=["DELETE"])
+def delete_all_todos(delete_all_todos_uc: DeleteAllTodosUseCase) -> Response:
+    delete_all_todos_uc.execute()
+    return '', 200

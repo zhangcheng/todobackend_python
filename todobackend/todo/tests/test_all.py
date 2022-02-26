@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 import pytest
 
-from ..application.use_cases import CreateTodoUseCase, DeleteTodoUseCase
+from ..application.use_cases import CreateTodoUseCase, DeleteTodoUseCase, DeleteAllTodosUseCase
 from ..domain.entities import Todo
 
 def test_saves_todo(
@@ -19,3 +19,11 @@ def test_delete_todo(
     delete_todo_uc.execute(delete_todo_input_dto)
 
     todos_repo_mock.delete.assert_called_once()
+
+
+def test_delete_all_todos(
+    delete_all_todos_uc: DeleteAllTodosUseCase, todos_repo_mock: Mock,
+) -> None:
+    delete_all_todos_uc.execute()
+
+    todos_repo_mock.delete_all.assert_called_once()

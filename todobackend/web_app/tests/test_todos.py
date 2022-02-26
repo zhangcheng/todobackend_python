@@ -30,7 +30,7 @@ def test_create_get_then_delete_todo(client: FlaskClient) -> None:
     assert response.status_code == 404
 
 
-def test_get_all_todos(client: FlaskClient) -> None:
+def test_get_all_then_delete_all_todos(client: FlaskClient) -> None:
     # no todo at first
     response = client.get(f"/")
 
@@ -58,3 +58,14 @@ def test_get_all_todos(client: FlaskClient) -> None:
 
     assert response.status_code == 200
     assert len(response.json) == 3
+
+    # delete all
+    response = client.delete(f"/")
+
+    assert response.status_code == 200
+
+    # no todo again
+    response = client.get(f"/")
+
+    assert response.status_code == 200
+    assert len(response.json) == 0

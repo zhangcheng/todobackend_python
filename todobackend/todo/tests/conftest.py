@@ -1,7 +1,7 @@
 from unittest.mock import Mock
 import pytest
 
-from ..application.use_cases import CreateTodoUseCase, CreateTodoOutputBoundary, DeleteTodoUseCase
+from ..application.use_cases import CreateTodoUseCase, CreateTodoOutputBoundary, DeleteTodoUseCase, DeleteAllTodosUseCase
 from ..application.repositories import TodosRepository
 from ..domain.entities import Todo
 from ..domain.value_objects import TodoId
@@ -50,3 +50,8 @@ def delete_todo_input_dto(todo_id: TodoId) -> DeleteTodoUseCase.InputDto:
 @pytest.fixture()
 def delete_todo_uc(todos_repo_mock: Mock) -> DeleteTodoUseCase:
     return DeleteTodoUseCase(todos_repo_mock)
+
+
+@pytest.fixture()
+def delete_all_todos_uc(todos_repo_mock: Mock) -> DeleteAllTodosUseCase:
+    return DeleteAllTodosUseCase(todos_repo_mock)

@@ -21,3 +21,7 @@ class TodosRepository(abc.ABC):
     @abc.abstractmethod
     def delete(self, todo_id: TodoId) -> None:
         pass
+
+    @abc.abstractmethod
+    def delete_all(self) -> None:
+        pass
