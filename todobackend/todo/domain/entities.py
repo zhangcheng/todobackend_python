@@ -6,3 +6,5 @@ from .value_objects import TodoId
 class Todo:
     id: TodoId
     title: str
+    order: int
+    completed: bool = False

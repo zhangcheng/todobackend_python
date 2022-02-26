@@ -3,6 +3,7 @@ from sqlalchemy.engine import Connection, RowProxy
 
 from ..todo.application.repositories import TodosRepository
 from ..todo.domain.entities import Todo
+from ..todo.domain.exceptions import TodoNotFound
 from ..todo.domain.value_objects import TodoId
 
 from .models import todos
@@ -16,6 +17,8 @@ class SqlAlchemyTodosRepo(TodosRepository):
         raw_todo = {
             "id": todo.id,
             "title": todo.title,
+            "order": todo.order,
+            "completed": todo.completed,
         }
         update_result = self._conn.execute(
             todos.update(values=raw_todo, whereclause=todos.c.id == todo.id)
@@ -36,7 +39,7 @@ class SqlAlchemyTodosRepo(TodosRepository):
     def get(self, todo_id: TodoId) -> Todo:
         row = self._conn.execute(todos.select().where(todos.c.id == todo_id)).first()
         if not row:
-            raise Exception("Not found")
+            raise TodoNotFound
 
         return self._row_to_dto(row)
 
@@ -49,4 +52,6 @@ class SqlAlchemyTodosRepo(TodosRepository):
         return Todo(
             id=row.id,
             title=row.title,
+            order=row.order,
+            completed=row.completed,
         )

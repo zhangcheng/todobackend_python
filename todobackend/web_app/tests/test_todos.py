@@ -7,7 +7,7 @@ import pytest
 def test_create_get_then_delete_todo(client: FlaskClient) -> None:
     # create
     title = Faker().name()
-    response = client.post(f"/", json={"title": title})
+    response = client.post(f"/", json={"title": title, "order": 1})
 
     assert response.status_code == 200
     assert response.json["title"] == title
@@ -39,7 +39,7 @@ def test_get_all_then_delete_all_todos(client: FlaskClient) -> None:
 
     # create one
     title = Faker().name()
-    response = client.post(f"/", json={"title": title})
+    response = client.post(f"/", json={"title": title, "order": 1})
 
     # one todo now
     response = client.get(f"/")
@@ -49,9 +49,9 @@ def test_get_all_then_delete_all_todos(client: FlaskClient) -> None:
 
     # create another two
     title = Faker().name()
-    response = client.post(f"/", json={"title": title})
+    response = client.post(f"/", json={"title": title, "order": 2})
     title = Faker().name()
-    response = client.post(f"/", json={"title": title})
+    response = client.post(f"/", json={"title": title, "order": 3})
 
     # three todos now
     response = client.get(f"/")

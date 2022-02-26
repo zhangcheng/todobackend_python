@@ -23,13 +23,14 @@ class CreateTodoUseCase:
     @dataclass
     class InputDto:
         title: str
+        order: int
 
     def __init__(self, output_boundary: CreateTodoOutputBoundary, todos_repo: TodosRepository) -> None:
         self.output_boundary = output_boundary
         self.todos_repo = todos_repo
 
     def execute(self, input_dto: InputDto) -> None:
-        new_todo = Todo(id=uuid4().hex, title=input_dto.title)
+        new_todo = Todo(id=uuid4().hex, title=input_dto.title, order=input_dto.order)
         self.todos_repo.save(new_todo)
 
         output_dto = CreateTodoOutputDto(created_todo=new_todo)

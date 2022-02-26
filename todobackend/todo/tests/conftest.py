@@ -14,7 +14,7 @@ def title() -> str:
 
 @pytest.fixture()
 def todo() -> Todo:
-    return Todo("id", "title")
+    return Todo(id="id", title="title", order=0)
 
 
 @pytest.fixture()
@@ -29,7 +29,7 @@ def todos_repo_mock(todo: Todo) -> Mock:
 
 @pytest.fixture()
 def create_todo_input_dto(title: str) -> CreateTodoUseCase.InputDto:
-    return CreateTodoUseCase.InputDto(title)
+    return CreateTodoUseCase.InputDto(title=title, order=1)
 
 
 @pytest.fixture()

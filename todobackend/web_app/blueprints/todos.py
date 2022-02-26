@@ -1,6 +1,7 @@
 from flask import Blueprint, Response, abort, jsonify, make_response, request
 import flask_injector
 import injector
+from todobackend.todo.domain.exceptions import TodoNotFound
 
 from ...todo import (
     TodoId,
@@ -55,7 +56,7 @@ def delete_todo(todo_id: TodoId, delete_todo_uc: DeleteTodoUseCase) -> Response:
 def single_todo(todo_id: TodoId, query: GetSingleTodo) -> Response:
     try:
         return make_response(jsonify(query.query(todo_id)))
-    except:
+    except TodoNotFound:
         return '', 404
 
 

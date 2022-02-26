@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, Numeric, String, Table, MetaData
+from sqlalchemy import Boolean, Column, Integer, String, Table, MetaData
 
 metadata = MetaData()
 
@@ -7,4 +7,6 @@ todos = Table(
     metadata,
     Column("id", String(32), primary_key=True),
     Column("title", String(255), nullable=False),
+    Column("order", Integer, nullable=False),
+    Column("completed", Boolean, nullable=False),
 )
