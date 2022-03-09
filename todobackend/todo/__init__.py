@@ -12,11 +12,14 @@ from .application.use_cases import (
     DeleteTodoUseCase,
     DeleteAllTodosUseCase,
 )
+from .domain.entities import Todo
 from .domain.value_objects import TodoId
 
 __all__ = [
     # module
     "Todos",
+    # entities
+    "Todo",
     # value objects
     "TodoId",
     # repositories
